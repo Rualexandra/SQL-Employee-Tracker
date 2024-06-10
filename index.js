@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const queries = require('./queries');
+const { client, getDepartments, getRoles, getEmployees, addDepartment, addRole, addEmployee, updateEmployeeRole } = require('./queries'); // Import the client object and query functions
 
 const mainMenu = async () => {
   const { choice } = await inquirer.prompt([
@@ -22,13 +22,17 @@ const mainMenu = async () => {
 
   switch (choice) {
     case 'View all departments':
-      console.table(await queries.getDepartments());
+      console.table(await getDepartments()); // Use getDepartments directly
+      await mainMenu()
+
       break;
     case 'View all roles':
-      console.table(await queries.getRoles());
+      console.table(await getRoles()); // Use getRoles directly
+      await mainMenu()
       break;
     case 'View all employees':
-      console.table(await queries.getEmployees());
+      console.table(await getEmployees()); // Use getEmployees directly
+      await mainMenu()
       break;
     case 'Add a department':
       const { departmentName } = await inquirer.prompt([
@@ -38,7 +42,8 @@ const mainMenu = async () => {
           message: 'Enter the name of the department:'
         }
       ]);
-      await queries.addDepartment(departmentName);
+      await addDepartment(departmentName); // Use addDepartment directly
+      await mainMenu()
       break;
     case 'Add a role':
       const { roleName, roleSalary, roleDepartment } = await inquirer.prompt([
@@ -58,7 +63,8 @@ const mainMenu = async () => {
           message: 'Enter the department ID of the role:'
         }
       ]);
-      await queries.addRole(roleName, roleSalary, roleDepartment);
+      await addRole(roleName, roleSalary, roleDepartment); // Use addRole directly
+      await mainMenu()
       break;
     case 'Add an employee':
       const { employeeFirstName, employeeLastName, employeeRole, employeeManager } = await inquirer.prompt([
@@ -84,7 +90,8 @@ const mainMenu = async () => {
           default: null
         }
       ]);
-      await queries.addEmployee(employeeFirstName, employeeLastName, employeeRole, employeeManager);
+      await addEmployee(employeeFirstName, employeeLastName, employeeRole, employeeManager); // Use addEmployee directly
+      await mainMenu()
       break;
     case 'Update an employee role':
       const { employeeId, newRoleId } = await inquirer.prompt([
@@ -99,14 +106,14 @@ const mainMenu = async () => {
           message: 'Enter the new role ID for the employee:'
         }
       ]);
-      await queries.updateEmployeeRole(employeeId, newRoleId);
+      await updateEmployeeRole(employeeId, newRoleId); // Use updateEmployeeRole directly
+      await mainMenu()
       break;
     case 'Exit':
-      client.end();
-      process.exit();
+      client.end(); // End the PostgreSQL client
+      process.exit(); // Exit the process
   }
-
-  mainMenu();
 };
 
+// Start the main menu
 mainMenu();

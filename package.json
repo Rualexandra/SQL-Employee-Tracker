@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run-schema": "psql -U postgres -d employeetracker_db -a -f db/schema.sql",
+    "run-seed": "psql -U postgres -d employeetracker_db -a -f db/seeds.sql",
+    "setup": "npm run run-schema && npm run run-seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "inquirer": "^8.2.4",
     "pg": "^8.12.0"
   }

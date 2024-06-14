@@ -90,6 +90,8 @@ const mainMenu = async () => {
           default: null
         }
       ]);
+      const managerId = employeeManager ? employeeManager : null;
+      
       await addEmployee(employeeFirstName, employeeLastName, employeeRole, employeeManager); // Use addEmployee directly
       await mainMenu()
       break;
